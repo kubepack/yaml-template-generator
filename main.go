@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"gopkg.in/yaml.v3"
-	y2 "sigs.k8s.io/yaml"
+	ky "sigs.k8s.io/yaml"
 )
 
 var yaml_text = `services:
@@ -49,11 +49,18 @@ func main() {
 	}
 	fmt.Println(string(str))
 
-	str, err = y2.YAMLToJSON([]byte(str))
+	str, err = ky.YAMLToJSON([]byte(str))
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(string(str))
+
+	str, err = ky.YAMLToJSON([]byte(yaml_text))
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(str))
+
 
 	//m := map[string]SA{}
 	//data, err := json.MarshalIndent(m, "", "  ")
