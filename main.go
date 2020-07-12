@@ -32,18 +32,25 @@ var yaml_text = `services:
       no_proxy: "gateway"
       https_proxy: $https_proxy`
 
+var yt2 = `a: &fa
+  b: &fb x
+  c: "y"
+d: *fb`
+
 type SA struct {
 	A string `json:"a"`
 	B string `json:"b"`
 }
 
 func main() {
-	var mj map[string]interface{}
-	err := yaml.Unmarshal([]byte(yaml_text), &mj)
+	var mj yaml.Node
+	err := yaml.Unmarshal([]byte(yt2), &mj)
 	if err != nil {
 		panic(err)
 	}
-	str, err := yaml.Marshal(mj)
+	mj.Content[0].Content[1].Content[1].Value = "we"
+
+	str, err := yaml.Marshal(&mj)
 	if err != nil {
 		panic(err)
 	}

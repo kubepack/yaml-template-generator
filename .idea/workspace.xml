@@ -32,6 +32,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="go.vendoring.notification.had.been.shown" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -64,46 +65,61 @@
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1807" height="334" key="GridCell.Tab.0.bottom" timestamp="1594522895191">
+    <state width="1807" height="270" key="GridCell.Tab.0.bottom" timestamp="1594587722066">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="334" key="GridCell.Tab.0.bottom/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594522895191" />
-    <state width="1807" height="334" key="GridCell.Tab.0.center" timestamp="1594522895191">
+    <state width="1807" height="270" key="GridCell.Tab.0.bottom/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594587722066" />
+    <state width="1807" height="270" key="GridCell.Tab.0.center" timestamp="1594587722066">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="334" key="GridCell.Tab.0.center/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594522895191" />
-    <state width="1807" height="334" key="GridCell.Tab.0.left" timestamp="1594522895191">
+    <state width="1807" height="270" key="GridCell.Tab.0.center/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594587722066" />
+    <state width="1807" height="270" key="GridCell.Tab.0.left" timestamp="1594587722066">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="334" key="GridCell.Tab.0.left/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594522895191" />
-    <state width="1807" height="334" key="GridCell.Tab.0.right" timestamp="1594522895191">
+    <state width="1807" height="270" key="GridCell.Tab.0.left/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594587722066" />
+    <state width="1807" height="270" key="GridCell.Tab.0.right" timestamp="1594587722066">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="334" key="GridCell.Tab.0.right/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594522895191" />
-    <state width="1807" height="334" key="GridCell.Tab.1.bottom" timestamp="1594522895191">
+    <state width="1807" height="270" key="GridCell.Tab.0.right/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594587722066" />
+    <state width="1807" height="454" key="GridCell.Tab.1.bottom" timestamp="1594587644947">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="334" key="GridCell.Tab.1.bottom/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594522895191" />
-    <state width="1807" height="334" key="GridCell.Tab.1.center" timestamp="1594522895191">
+    <state width="1807" height="454" key="GridCell.Tab.1.bottom/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594587644947" />
+    <state width="1807" height="454" key="GridCell.Tab.1.center" timestamp="1594587644947">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="334" key="GridCell.Tab.1.center/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594522895191" />
-    <state width="1807" height="334" key="GridCell.Tab.1.left" timestamp="1594522895191">
+    <state width="1807" height="454" key="GridCell.Tab.1.center/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594587644947" />
+    <state width="1807" height="454" key="GridCell.Tab.1.left" timestamp="1594587644947">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="334" key="GridCell.Tab.1.left/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594522895191" />
-    <state width="1807" height="334" key="GridCell.Tab.1.right" timestamp="1594522895191">
+    <state width="1807" height="454" key="GridCell.Tab.1.left/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594587644947" />
+    <state width="1807" height="454" key="GridCell.Tab.1.right" timestamp="1594587644947">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="334" key="GridCell.Tab.1.right/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594522895191" />
+    <state width="1807" height="454" key="GridCell.Tab.1.right/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594587644947" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/main.go</url>
-          <line>40</line>
-          <option name="timeStamp" value="1" />
+          <line>46</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/main.go</url>
+          <line>57</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/main.go</url>
+          <line>51</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/vendor/gopkg.in/yaml.v3/yaml.go</url>
+          <line>221</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
