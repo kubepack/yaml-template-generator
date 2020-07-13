@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v3"
 	ky "sigs.k8s.io/yaml"
+	"strings"
 )
 
 var yaml_text = `services:
@@ -35,7 +36,14 @@ var yaml_text = `services:
 var yt2 = `a: &fa
   b: &fb x
   c: "y"
-d: *fb`
+d: *fa
+e: z`
+
+var yt_2 = `x:
+  - a
+  - b`
+
+var yt__2 = `a`
 
 type SA struct {
 	A string `json:"a"`
@@ -43,12 +51,50 @@ type SA struct {
 }
 
 func main() {
+	var node yaml.Node
+	err := yaml.Unmarshal([]byte(yt2), &node)
+	if err != nil {
+		panic(err)
+	}
+	err = traverse(&node, nil)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func traverse(node *yaml.Node, path []string) error {
+	switch node.Kind {
+	case yaml.DocumentNode:
+		return traverse(node.Content[0], path)
+	case yaml.SequenceNode:
+		// end it here
+		fmt.Println("> ", strings.Join(path, "."))
+		return nil
+	case yaml.MappingNode:
+		// even number nodes
+		for i := 0; i < len(node.Content); i = i + 2 {
+			err := traverse(node.Content[i+1], append(path, node.Content[i].Value))
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	case yaml.ScalarNode:
+		fmt.Println("> ", strings.Join(path, "."))
+		return nil
+	case yaml.AliasNode:
+		return traverse(node.Alias, path)
+	}
+	return nil
+}
+
+func main22() {
 	var mj yaml.Node
 	err := yaml.Unmarshal([]byte(yt2), &mj)
 	if err != nil {
 		panic(err)
 	}
-	mj.Content[0].Content[1].Content[1].Value = "we"
+	mj.Content[0].Content[1].Content[1].Value = "{{ .Values.xyz }}"
 
 	str, err := yaml.Marshal(&mj)
 	if err != nil {
