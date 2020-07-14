@@ -80,27 +80,27 @@ func templatize(node *yaml.Node, buf *bytes.Buffer, shift, column int, path []st
 		return templatize(node.Content[0], buf, shift, node.Column, path)
 	case yaml.SequenceNode:
 		// end it here
-		// buf.WriteString(fmt.Sprintf("%s%s: {{ toJson .Values.%s }}", strings.Repeat(" ", shift+column-1), path[0], strings.Join(path, ".")))
-
-		buf.WriteString(fmt.Sprintf(" {{ toJson .Values.%s }}", strings.Join(path, ".")))
+		buf.WriteString(fmt.Sprintf(" {{ toJson .Values.%s }}\n", strings.Join(path, ".")))
 		return nil
 	case yaml.MappingNode:
-		// even number nodes
-		buf.WriteString("\n")
 		for i := 0; i < len(node.Content); i = i + 2 {
 			buf.WriteString(fmt.Sprintf("%s%s:", strings.Repeat(" ", shift+node.Content[i].Column-1), node.Content[i].Value))
+
+			nextMap := node.Content[i+1].Kind == yaml.MappingNode ||
+				(node.Content[i+1].Kind == yaml.AliasNode && node.Content[i+1].Alias.Kind == yaml.MappingNode)
+			if nextMap {
+				buf.WriteString("\n")
+			}
+
 			err := templatize(node.Content[i+1], buf, shift, node.Content[i].Column, append(path, node.Content[i].Value))
 			if err != nil {
 				return err
 			}
-			if node.Content[i+1].Kind != yaml.MappingNode && !(node.Content[i+1].Kind == yaml.AliasNode && node.Content[i+1].Alias.Kind != yaml.MappingNode) {
-				buf.WriteString("\n")
-			}
 		}
 		return nil
 	case yaml.ScalarNode:
-		// buf.WriteString(fmt.Sprintf("%s%s: {{ .Values.%s }}\n", strings.Repeat(" ", shift+column-1), path[0], strings.Join(path, ".")))
-		buf.WriteString(fmt.Sprintf(" {{ .Values.%s }}", strings.Join(path, ".")))
+		// end it here
+		buf.WriteString(fmt.Sprintf(" {{ .Values.%s }}\n", strings.Join(path, ".")))
 		return nil
 	case yaml.AliasNode:
 		return templatize(node.Alias, buf, shift, node.Alias.Column, path)

@@ -65,22 +65,22 @@
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1807" height="270" key="GridCell.Tab.0.bottom" timestamp="1594688283412">
+    <state width="1807" height="270" key="GridCell.Tab.0.bottom" timestamp="1594688588524">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="270" key="GridCell.Tab.0.bottom/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594688283412" />
-    <state width="1807" height="270" key="GridCell.Tab.0.center" timestamp="1594688283412">
+    <state width="1807" height="270" key="GridCell.Tab.0.bottom/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594688588524" />
+    <state width="1807" height="270" key="GridCell.Tab.0.center" timestamp="1594688588524">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="270" key="GridCell.Tab.0.center/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594688283412" />
-    <state width="1807" height="270" key="GridCell.Tab.0.left" timestamp="1594688283412">
+    <state width="1807" height="270" key="GridCell.Tab.0.center/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594688588524" />
+    <state width="1807" height="270" key="GridCell.Tab.0.left" timestamp="1594688588524">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="270" key="GridCell.Tab.0.left/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594688283412" />
-    <state width="1807" height="270" key="GridCell.Tab.0.right" timestamp="1594688283412">
+    <state width="1807" height="270" key="GridCell.Tab.0.left/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594688588524" />
+    <state width="1807" height="270" key="GridCell.Tab.0.right" timestamp="1594688588524">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="270" key="GridCell.Tab.0.right/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594688283412" />
+    <state width="1807" height="270" key="GridCell.Tab.0.right/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1594688588524" />
     <state width="1807" height="314" key="GridCell.Tab.1.bottom" timestamp="1594688191874">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -167,18 +167,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/main.go</url>
-          <line>85</line>
+          <line>83</line>
           <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/main.go</url>
-          <line>96</line>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/main.go</url>
-          <line>88</line>
-          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
