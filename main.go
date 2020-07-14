@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
+	"regexp"
 	ky "sigs.k8s.io/yaml"
 	"strings"
 )
@@ -53,7 +54,8 @@ type SA struct {
 }
 
 func main() {
-	data, err := ioutil.ReadFile("/home/tamal/go/src/github.com/appscodelabs/tasty-kube/busy-dep.yaml")
+	// data, err := ioutil.ReadFile("/home/tamal/go/src/github.com/appscodelabs/tasty-kube/busy-dep.yaml")
+	data, err := ioutil.ReadFile("/home/tamal/go/src/github.com/tamalsaha/json-demo/yamls/busy-dep.yaml")
 	if err != nil {
 		panic(err)
 	}
@@ -74,21 +76,40 @@ func main() {
 	fmt.Println(buf.String())
 }
 
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+
 func templatize(node *yaml.Node, buf *bytes.Buffer, shift, column int, path []string) error {
+	n := shift + column - 1
 	switch node.Kind {
 	case yaml.DocumentNode:
 		return templatize(node.Content[0], buf, shift, node.Column, path)
 	case yaml.SequenceNode:
 		// end it here
-		buf.WriteString(fmt.Sprintf(" {{ toJson .Values.%s }}\n", strings.Join(path, ".")))
+
+		/*
+			{{- with .Va }}
+			  x: {{ . }}
+			{{- end }}
+		*/
+		buf.WriteString(fmt.Sprintf("%s{{- with %s }}\n", strings.Repeat(" ", max(0, n-2)), V(path)))
+		buf.WriteString(fmt.Sprintf("%s%s: {{ toJson . }}\n", strings.Repeat(" ", n), path[len(path)-1]))
+		buf.WriteString(fmt.Sprintf("%s{{- end }}\n", strings.Repeat(" ", max(0, n-2))))
+
+		// buf.WriteString(fmt.Sprintf("%s%s: {{ toJson .Values.%s }}\n", strings.Repeat(" ", n), path[len(path)-1], strings.Join(path, ".")))
 		return nil
 	case yaml.MappingNode:
 		for i := 0; i < len(node.Content); i = i + 2 {
-			buf.WriteString(fmt.Sprintf("%s%s:", strings.Repeat(" ", shift+node.Content[i].Column-1), node.Content[i].Value))
+			// buf.WriteString(fmt.Sprintf("%s%s:", strings.Repeat(" ", shift+node.Content[i].Column-1), node.Content[i].Value))
 
 			nextMap := node.Content[i+1].Kind == yaml.MappingNode ||
 				(node.Content[i+1].Kind == yaml.AliasNode && node.Content[i+1].Alias.Kind == yaml.MappingNode)
 			if nextMap {
+				buf.WriteString(fmt.Sprintf("%s%s:", strings.Repeat(" ", shift+node.Content[i].Column-1), node.Content[i].Value))
 				buf.WriteString("\n")
 			}
 
@@ -100,12 +121,33 @@ func templatize(node *yaml.Node, buf *bytes.Buffer, shift, column int, path []st
 		return nil
 	case yaml.ScalarNode:
 		// end it here
-		buf.WriteString(fmt.Sprintf(" {{ .Values.%s }}\n", strings.Join(path, ".")))
+		buf.WriteString(fmt.Sprintf("%s%s: {{ %s }}\n", strings.Repeat(" ", n), path[len(path)-1], V(path)))
 		return nil
 	case yaml.AliasNode:
 		return templatize(node.Alias, buf, shift, node.Alias.Column, path)
 	}
 	return nil
+}
+
+func V(path []string) string {
+	if IsSimple(path) {
+		return fmt.Sprintf(".Values.%s", strings.Join(path, "."))
+	}
+
+	parts := make([]string, len(path))
+	for i := range path {
+		parts[i] = `"` + path[i] + `"`
+	}
+	return fmt.Sprintf(`index .Values %s`, strings.Join(parts, " "))
+}
+
+func IsSimple(path []string) bool {
+	for _, p := range path {
+		if !regexp.MustCompile("^[a-zA-Z]+$").MatchString(p) {
+			return false
+		}
+	}
+	return true
 }
 
 func traverse(node *yaml.Node, path []string) error {
