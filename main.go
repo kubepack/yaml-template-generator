@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"gopkg.in/yaml.v3"
+	"io/ioutil"
 	ky "sigs.k8s.io/yaml"
 	"strings"
 )
@@ -51,15 +53,59 @@ type SA struct {
 }
 
 func main() {
+	data, err := ioutil.ReadFile("/home/tamal/go/src/github.com/appscodelabs/tasty-kube/busy-dep.yaml")
+	if err != nil {
+		panic(err)
+	}
+
 	var node yaml.Node
-	err := yaml.Unmarshal([]byte(yt2), &node)
+	err = yaml.Unmarshal(data, &node)
 	if err != nil {
 		panic(err)
 	}
-	err = traverse(&node, nil)
+
+	indent := 0
+	column := 0
+	var buf bytes.Buffer
+	err = templatize(&node, &buf, indent, column, nil)
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println(buf.String())
+}
+
+func templatize(node *yaml.Node, buf *bytes.Buffer, shift, column int, path []string) error {
+	switch node.Kind {
+	case yaml.DocumentNode:
+		return templatize(node.Content[0], buf, shift, node.Column, path)
+	case yaml.SequenceNode:
+		// end it here
+		// buf.WriteString(fmt.Sprintf("%s%s: {{ toJson .Values.%s }}", strings.Repeat(" ", shift+column-1), path[0], strings.Join(path, ".")))
+
+		buf.WriteString(fmt.Sprintf(" {{ toJson .Values.%s }}", strings.Join(path, ".")))
+		return nil
+	case yaml.MappingNode:
+		// even number nodes
+		buf.WriteString("\n")
+		for i := 0; i < len(node.Content); i = i + 2 {
+			buf.WriteString(fmt.Sprintf("%s%s:", strings.Repeat(" ", shift+node.Content[i].Column-1), node.Content[i].Value))
+			err := templatize(node.Content[i+1], buf, shift, node.Content[i].Column, append(path, node.Content[i].Value))
+			if err != nil {
+				return err
+			}
+			if node.Content[i+1].Kind != yaml.MappingNode && !(node.Content[i+1].Kind == yaml.AliasNode && node.Content[i+1].Alias.Kind != yaml.MappingNode) {
+				buf.WriteString("\n")
+			}
+		}
+		return nil
+	case yaml.ScalarNode:
+		// buf.WriteString(fmt.Sprintf("%s%s: {{ .Values.%s }}\n", strings.Repeat(" ", shift+column-1), path[0], strings.Join(path, ".")))
+		buf.WriteString(fmt.Sprintf(" {{ .Values.%s }}", strings.Join(path, ".")))
+		return nil
+	case yaml.AliasNode:
+		return templatize(node.Alias, buf, shift, node.Alias.Column, path)
+	}
+	return nil
 }
 
 func traverse(node *yaml.Node, path []string) error {
@@ -113,7 +159,6 @@ func main22() {
 		panic(err)
 	}
 	fmt.Println(string(str))
-
 
 	//m := map[string]SA{}
 	//data, err := json.MarshalIndent(m, "", "  ")
