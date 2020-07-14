@@ -143,7 +143,7 @@ func V(path []string) string {
 
 func IsSimple(path []string) bool {
 	for _, p := range path {
-		if !regexp.MustCompile("^[a-zA-Z]+$").MatchString(p) {
+		if !regexp.MustCompile("^[a-zA-Z_]+$").MatchString(p) {
 			return false
 		}
 	}
