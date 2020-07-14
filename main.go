@@ -36,7 +36,7 @@ var yaml_text = `services:
       no_proxy: "gateway"
       https_proxy: $https_proxy`
 
-var yt2 = `a: &fa
+var yt___2 = `a: &fa
   b: &fb x
   c: "y"
 d: *fa
@@ -48,12 +48,17 @@ var yt_2 = `x:
 
 var yt__2 = `a`
 
+
+var yt2 = `e: {}`
+
 type SA struct {
 	A string `json:"a"`
 	B string `json:"b"`
 }
 
 func main() {
+	var err error
+
 	// data, err := ioutil.ReadFile("/home/tamal/go/src/github.com/appscodelabs/tasty-kube/busy-dep.yaml")
 	data, err := ioutil.ReadFile("/home/tamal/go/src/github.com/tamalsaha/json-demo/yamls/busy-dep.yaml")
 	if err != nil {
@@ -103,16 +108,27 @@ func templatize(node *yaml.Node, buf *bytes.Buffer, shift, column int, path []st
 		// buf.WriteString(fmt.Sprintf("%s%s: {{ toJson .Values.%s }}\n", strings.Repeat(" ", n), path[len(path)-1], strings.Join(path, ".")))
 		return nil
 	case yaml.MappingNode:
+		//if len(node.Content) == 0 {
+		//	buf.WriteString(fmt.Sprintf("%s%s: {{ %s }}\n", strings.Repeat(" ", n), path[len(path)-1], V(path)))
+		//	return nil
+		//}
+
 		for i := 0; i < len(node.Content); i = i + 2 {
 			// buf.WriteString(fmt.Sprintf("%s%s:", strings.Repeat(" ", shift+node.Content[i].Column-1), node.Content[i].Value))
 
-			nextMap := node.Content[i+1].Kind == yaml.MappingNode ||
-				(node.Content[i+1].Kind == yaml.AliasNode && node.Content[i+1].Alias.Kind == yaml.MappingNode)
-			if nextMap {
-				buf.WriteString(fmt.Sprintf("%s%s:", strings.Repeat(" ", shift+node.Content[i].Column-1), node.Content[i].Value))
-				buf.WriteString("\n")
+			nextNode := node.Content[i+1]
+			if nextNode.Kind == yaml.AliasNode {
+				nextNode = nextNode.Alias
 			}
-
+			if nextNode.Kind == yaml.MappingNode {
+				buf.WriteString(fmt.Sprintf("%s%s:", strings.Repeat(" ", shift+node.Content[i].Column-1), node.Content[i].Value))
+				if len(nextNode.Content) == 0 {
+					buf.WriteString(fmt.Sprintf(" {{ toJson %s }}\n", V(append(path, node.Content[i].Value))))
+					continue
+				} else {
+					buf.WriteString("\n")
+				}
+			}
 			err := templatize(node.Content[i+1], buf, shift, node.Content[i].Column, append(path, node.Content[i].Value))
 			if err != nil {
 				return err
